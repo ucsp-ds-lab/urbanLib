@@ -1,0 +1,10 @@
+{# Floating stat panel, used by both hotspots and amenities.
+stats: list of {"label": str, "value": str} #}
+{% macro render(title, border_color, stats) -%}
+<div class="ul-panel ul-stats" style="border-color:{{ border_color }}">
+  <b>{{ title }}</b><br>
+  {% for s in stats -%}
+  {{ s.label }}: <b>{{ s.value }}</b><br>
+  {% endfor -%}
+</div>
+{%- endmacro %}

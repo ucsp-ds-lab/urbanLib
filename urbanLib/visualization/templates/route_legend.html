@@ -1,0 +1,15 @@
+{# routes: list of {"color": str, "label": str, "subtitle": str} #}
+{% macro render(routes) -%}
+<div class="ul-panel ul-route-legend">
+  <div class="ul-header">ROUTE TYPES</div>
+  <div class="ul-body">
+    {% for r in routes -%}
+    <div class="ul-item">
+      <span class="ul-swatch-line" style="background:{{ r.color }}"></span>
+      <b style="color:{{ r.color }}">{{ r.label }}</b><br>
+      <span class="ul-sub">{{ r.subtitle }}</span>
+    </div>
+    {% endfor -%}
+  </div>
+</div>
+{%- endmacro %}

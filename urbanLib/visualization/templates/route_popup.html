@@ -1,0 +1,9 @@
+{# Popup shown when clicking a route polyline on the comparison map. #}
+{% macro popup(label, distance_km, danger_per_km, total_danger, computation_time_s, nodes_count) -%}
+<b>{{ label }}</b><br>
+Distance: {{ '%.1f'|format(distance_km) }} km<br>
+Danger/km: {{ danger_per_km }}<br>
+Total danger: {{ total_danger }}<br>
+Compute time: {{ '%.3f'|format(computation_time_s) }}s<br>
+Nodes: {{ nodes_count }}
+{%- endmacro %}

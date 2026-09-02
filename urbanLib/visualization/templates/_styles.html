@@ -1,0 +1,173 @@
+{# Shared stylesheet for all floating panels (legends, stat panels, route
+comparison table). Injected once per map. #}
+{% macro style() -%}
+<style>
+  .ul-panel {
+    position: fixed;
+    background: white;
+    border-radius: 10px;
+    z-index: 9999;
+    font-family: Arial, Helvetica, sans-serif;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  .ul-legend {
+    bottom: 50px;
+    left: 50px;
+    width: 210px;
+    border: 2px solid #ccc;
+    padding: 12px;
+    font-size: 12px;
+  }
+
+  .ul-legend .ul-swatch {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    margin-right: 6px;
+    border-radius: 3px;
+    vertical-align: middle;
+  }
+
+  .ul-stats {
+    top: 10px;
+    right: 50px;
+    width: 250px;
+    border: 2px solid #333;
+    padding: 12px;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .ul-route-legend {
+    bottom: 30px;
+    right: 30px;
+    min-width: 200px;
+    overflow: hidden;
+  }
+
+  .ul-route-legend .ul-header {
+    background: #1565c0;
+    color: white;
+    padding: 9px 14px;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+  }
+
+  .ul-route-legend .ul-body {
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+
+  .ul-route-legend .ul-item {
+    margin-bottom: 10px;
+  }
+
+  .ul-route-legend .ul-swatch-line {
+    width: 22px;
+    height: 4px;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+    border-radius: 2px;
+  }
+
+  .ul-route-legend .ul-sub {
+    margin-left: 30px;
+    font-size: 11px;
+    color: #777;
+  }
+
+  .ul-compare-panel {
+    position: fixed;
+    top: 10px;
+    left: 50px;
+    max-width: 430px;
+    width: calc(100vw - 60px);
+    background: white;
+    border-radius: 12px;
+    z-index: 9999;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+  }
+
+  .ul-compare-panel .ul-header {
+    background: #1565c0;
+    padding: 11px 16px;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.8px;
+  }
+
+  table.ul-compare {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  table.ul-compare th {
+    text-align: center;
+    padding: 8px;
+    font-weight: 600;
+    color: #555;
+    font-size: 12px;
+    border-bottom: 2px solid #e0e0e0;
+  }
+
+  table.ul-compare th.ul-th-left {
+    text-align: left;
+  }
+
+  table.ul-compare td {
+    text-align: center;
+    padding: 6px 8px;
+    white-space: nowrap;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  table.ul-compare td.ul-th-left {
+    text-align: left;
+  }
+
+  table.ul-compare td.ul-best {
+    font-weight: bold;
+  }
+
+  table.ul-compare .ul-dot {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  table.ul-compare tfoot td {
+    padding: 6px 12px;
+    font-size: 11px;
+    color: #999;
+    font-style: italic;
+  }
+
+  .ul-cluster-wrapper {
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .ul-cluster-badge {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 13px;
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  }
+</style>
+{%- endmacro %}

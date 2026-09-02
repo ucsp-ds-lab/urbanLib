@@ -1,0 +1,10 @@
+{# Generic color-scale legend, used by both hotspots and amenities.
+items: list of {"color": "#hex or name", "label": str} #}
+{% macro render(title, items) -%}
+<div class="ul-panel ul-legend">
+  <b>{{ title }}</b><br><br>
+  {% for item in items -%}
+  <i class="ul-swatch" style="background:{{ item.color }}"></i>{{ item.label }}<br>
+  {% endfor -%}
+</div>
+{%- endmacro %}

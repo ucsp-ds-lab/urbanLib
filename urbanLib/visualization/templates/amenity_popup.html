@@ -1,0 +1,11 @@
+{# details: list of {"category": str, "count": int}. "category" comes from
+OpenStreetMap tags (external, untrusted data) -- the environment's
+autoescape is what prevents it from ending up as raw HTML/JS. #}
+{% macro popup(total, details) -%}
+<b>SERVICE HUB</b><br><b>Total: {{ total }}</b><br>
+{%- for d in details %}{{ d.category }}: {{ d.count }}{% if not loop.last %}, {% endif %}{% endfor -%}
+{%- endmacro %}
+
+{% macro top_popup(rank, total) -%}
+<b>TOP {{ rank }}</b><br>{{ total }} services
+{%- endmacro %}

@@ -1,0 +1,48 @@
+{# rows: list of {"route", "color", "distance_km", "danger_per_km", "nodes", "time_s"}
+best: {"distance_km", "danger_per_km", "nodes", "time_s"} -- the minimum of each column #}
+{% macro render(rows, best) -%}
+<div class="ul-compare-panel">
+  <div class="ul-header">SAFEROUTE ROUTE COMPARISON</div>
+  <table class="ul-compare">
+    <thead>
+      <tr>
+        <th class="ul-th-left">Route</th>
+        <th>Dist.<br>(km)</th>
+        <th>Danger<br>/km</th>
+        <th>Nodes</th>
+        <th>Time<br>(s)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rows -%}
+      <tr>
+        <td class="ul-th-left">
+          <span class="ul-dot" style="background:{{ r.color }}"></span>
+          <b style="color:{{ r.color }}">{{ r.route }}</b>
+        </td>
+        <td class="{{ 'ul-best' if r.distance_km == best.distance_km }}"
+          style="{{ 'color:' + r.color if r.distance_km == best.distance_km }}">
+          {{- '%.2f'|format(r.distance_km) }} km{{ '*' if r.distance_km == best.distance_km }}
+        </td>
+        <td class="{{ 'ul-best' if r.danger_per_km == best.danger_per_km }}"
+          style="{{ 'color:' + r.color if r.danger_per_km == best.danger_per_km }}">
+          {{- '%.1f'|format(r.danger_per_km) }}{{ '*' if r.danger_per_km == best.danger_per_km }}
+        </td>
+        <td class="{{ 'ul-best' if r.nodes == best.nodes }}" style="{{ 'color:' + r.color if r.nodes == best.nodes }}">
+          {{- r.nodes }}{{ '*' if r.nodes == best.nodes }}
+        </td>
+        <td class="{{ 'ul-best' if r.time_s == best.time_s }}"
+          style="{{ 'color:' + r.color if r.time_s == best.time_s }}">
+          {{- '%.3f'|format(r.time_s) }} s{{ '*' if r.time_s == best.time_s }}
+        </td>
+      </tr>
+      {% endfor -%}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="5">* Bold values highlight the best result per metric</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+{%- endmacro %}

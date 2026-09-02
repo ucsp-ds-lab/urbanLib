@@ -1,0 +1,9 @@
+{# Marker popups for the hotspot map: a regular node and a top-10 node. #}
+{% macro popup(node_id, weight, lat, lon) -%}
+<b>HOTSPOT #{{ node_id }}</b><br><b>{{ weight }} crimes</b><br>Lat: {{ '%.6f'|format(lat) }}<br>Lon: {{
+'%.6f'|format(lon) }}
+{%- endmacro %}
+
+{% macro top_popup(rank, weight) -%}
+<b>TOP {{ rank }}</b><br>{{ weight }} crimes
+{%- endmacro %}
