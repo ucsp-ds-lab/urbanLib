@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "urbanLib"
+version = "0.1.0"
+description = "GPU-parallel urban analysis: crime hotspots, amenities, and safe routes"
+requires-python = ">=3.9"
+dependencies = [
+    "networkx",
+    "pandas",
+    "numpy",
+    "folium",
+    "jinja2",
+    "geopandas",
+    "shapely",
+    "osmnx",
+    "psutil",
+]
+
+[project.optional-dependencies]
+# GPU-only library: the operators (hotspot, amenity, saferoute) need
+# cudf/cupy + an NVIDIA GPU to run. Without this extra, only `urbanlib
+# fetch` works.
+#
+#   pip install "urbanlib[gpu]"
+#
+# Pins cu12 -- adjust the suffix (cu11/cu12) to match your local
+# CUDA toolkit if needed.
+gpu = [
+    "cudf-cu12",
+    "cupy-cuda12x",
+]
+dev = [
+    "pytest",
+]
+
+[project.scripts]
+urbanlib = "urbanLib.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["urbanLib*"]
+
+[tool.setuptools.package-data]
+"urbanLib.visualization" = ["templates/*.html"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

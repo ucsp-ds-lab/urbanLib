@@ -16,3 +16,8 @@ uv.lock
 # OS / editor junk
 .DS_Store
 .vscode/
+
+# Generated at runtime by the CLI -- caches, per-city input/output data
+cache/
+data/
+output/
