@@ -1,23 +1,66 @@
-# CUDA MapReduce Crime Analysis
+# urbanLib
 
-Analiza datos de criminalidad usando MapReduce en GPU para identificar los nodos de red con mayor incidencia criminal.
+GPU-parallel urban analysis: crime hotspots, amenity coverage, and safest routes over a city's road network.
 
-## Funcionamiento
+The three operators (`hotspot`, `amenity`, `saferoute`) use custom CUDA kernels (via `cudf`/`cupy`) to parallelize snapping points to the road network and route computation — this is a **GPU-only** library: you need an NVIDIA GPU with CUDA to actually use it.
 
-El programa implementa MapReduce en CUDA con tres fases:
+## Requirements
 
-1. **MAP**: Cada crimen se asigna al nodo de calle más cercano
-2. **SHUFFLE**: Los datos se ordenan y agrupan por nodo  
-3. **REDUCE**: Se cuenta el total de crímenes por nodo
+- Python >= 3.9
+- NVIDIA GPU + compatible CUDA toolkit (for `run`/`visualize` with real data)
 
-## Archivos Requeridos
+## Installation
 
-**crime_locations.csv**
-**edges_with_nodes.csv**
-## Uso
+```bash
+pip install "urbanlib[gpu] @ git+https://github.com/ucsp-ds-lab/urbanLib.git"
+```
 
-### Compilar
-nvcc -o crime_analyzer main.cu
+This installs the `urbanlib` CLI along with `cudf`/`cupy` (RAPIDS), resolved directly from PyPI. Without the `[gpu]` extra the install doesn't fail, but only `urbanlib fetch` stays available (no GPU needed) — `run` and `visualize` with real data need the GPU operators.
 
-### Ejecutar
-./crime_analyzer
+## Usage
+
+```bash
+# Downloads the road network from OSM and caches it under data/<city>/
+# (fetched automatically if missing, this step is optional)
+urbanlib fetch --city "Manhattan, New York, USA"
+
+# Run one or more operators
+urbanlib run --city "Manhattan, New York, USA" --operator hotspot --crimes crimes.csv
+urbanlib run --city "Manhattan, New York, USA" --operator amenity --amenities amenities.csv
+
+# --modes already defaults to "fast,balanced,safe" -- computes all 3 modes
+# at once, no need to pass the flag
+urbanlib run --city "Manhattan, New York, USA" --operator saferoute \
+  --start 40.758,-73.985 --end 40.700,-74.016
+
+# You can also pass your own alpha (0 = distance only, 1 = avoid crime only)
+# instead of -- or mixed with -- the presets
+urbanlib run --city "Manhattan, New York, USA" --operator saferoute \
+  --start 40.758,-73.985 --end 40.700,-74.016 --modes 0.2
+
+urbanlib run --city "Manhattan, New York, USA" --operator all --crimes crimes.csv --amenities amenities.csv
+
+# The "routes" map compares all 3 saferoute modes side by side
+urbanlib visualize --city "Manhattan, New York, USA" --operator hotspot,amenity,routes
+```
+
+`--crimes`/`--amenities` expect a CSV with `Latitude`,`Longitude` columns (`amenities.csv` also needs an `amenity` column with the category). Results land in `output/<city>/` (CSV, GeoJSON, HTML maps).
+
+`run` doesn't save performance metrics (timings, RAM/VRAM usage) by default; add `--save-metrics` if you need them.
+
+## Operators
+
+| Operator | What it does |
+|---|---|
+| `hotspot` | Snaps each crime to the nearest road network node (point-segment snapping) and aggregates the count per node. |
+| `amenity` | Same as `hotspot`, but for OSM points of interest, aggregated per node and category. |
+| `saferoute` | Multi-objective Dijkstra routing, weighing distance against accumulated crime risk. `--modes fast,balanced,safe`, or any float alpha in `[0, 1]`. |
+
+## Development
+
+```bash
+pip install -e ".[gpu,dev]"
+pytest
+```
+
+Most tests run without a GPU (they use a synthetic road network). The ones that exercise the real operators (`test_hotspot.py`, `test_amenity.py`, `test_saferoute.py`, `test_citygraph.py`) require `cudf`/`cupy` to be installed and skip themselves automatically when unavailable.
