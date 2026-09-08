@@ -64,3 +64,21 @@ pytest
 ```
 
 Most tests run without a GPU (they use a synthetic road network). The ones that exercise the real operators (`test_hotspot.py`, `test_amenity.py`, `test_saferoute.py`, `test_citygraph.py`) require `cudf`/`cupy` to be installed and skip themselves automatically when unavailable.
+
+## 📚 Citation
+
+If you use UrbanLib in your research, please cite:
+
+> VILCA-QUISPE, E.; GOMEZ-NIETO, E. **UrbanLib: A GPU-based library for accelerating urban data exploration**. In: Conference on Graphics, Patterns and Images, 39. (SIBGRAPI), 2026, Goiânia, GO. Proceedings... 2026. On-line. URI: <upn:EEAFFE:8JMKD2USNRW34M/4GBJQNB>. Available from: <http://urlib.net/upn:EEAFFE:8JMKD2USNRW34M/4GBJQNB>.
+
+```bibtex
+@inproceedings{vilcaquispe2026urbanlib,
+  author    = {Vilca-Quispe, E. and Gomez-Nieto, E.},
+  title     = {UrbanLib: A GPU-based library for accelerating urban data exploration},
+  booktitle = {Proceedings of the 39th Conference on Graphics, Patterns and Images (SIBGRAPI)},
+  year      = {2026},
+  address   = {Goi{\^a}nia, GO, Brazil},
+  note      = {On-line},
+  url       = {http://urlib.net/upn:EEAFFE:8JMKD2USNRW34M/4GBJQNB}
+}
+```
